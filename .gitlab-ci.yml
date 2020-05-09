@@ -17,6 +17,6 @@ generate-image:
   only:
     - master
   script:
-    - docker build -t registry.kube-system/ci-$CI_PIPELINE_ID .
+    - docker build -t registry.kube-system/helloworld:ci-$CI_PIPELINE_ID .
     - docker images
-    - docker push registry.kube-system/ci-$CI_PIPELINE_ID
+    - docker push registry.kube-system/helloworld:ci-$CI_PIPELINE_ID
