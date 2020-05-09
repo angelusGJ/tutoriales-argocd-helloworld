@@ -1,0 +1,11 @@
+build:
+  stage: build
+  servivces: 
+    - docker:dind
+  allow_failure: false
+  only:
+    - master
+  script:
+    - docker build .
+    - docker push ci-$CI_PIPELINE_ID
+
