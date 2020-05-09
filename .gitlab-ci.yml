@@ -1,11 +1,22 @@
-build:
+image: docker:latest
+variables:
+ GIT_SSL_NO_VERIFY: "true"
+ DOCKER_TLS_CERTDIR: ""
+ DOCKER_HOST: "tcp://docker:2375"
+ 
+stages:
+ - build
+
+generate-image:
   stage: build
-  servivces: 
-    - docker:dind
+  services:
+    - name: docker:dind
+      entrypoint: ["dockerd-entrypoint.sh"]
+      command: ["--insecure-registry", "192.168.64.10:5000"]
   allow_failure: false
   only:
     - master
   script:
-    - docker build .
-    - docker push ci-$CI_PIPELINE_ID
-
+    - docker build -t 192.168.64.10:5000/ci-$CI_PIPELINE_ID .
+    - docker images
+    - docker push 192.168.64.10:5000/ci-$CI_PIPELINE_ID
